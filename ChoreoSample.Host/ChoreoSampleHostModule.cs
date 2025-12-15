@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Models;
@@ -168,6 +169,7 @@ public class ChoreoSampleHostModule : AbpModule
             context.Services.Replace(ServiceDescriptor.Singleton<IEmailSender, NullEmailSender>());
         }
 
+        ConfigureForwardedHeaders(context);
         ConfigureAuthentication(context);
         ConfigureBundles();
         ConfigureMultiTenancy();
@@ -180,6 +182,19 @@ public class ChoreoSampleHostModule : AbpModule
         ConfigureMongoDB(context);
     }
     
+    private void ConfigureForwardedHeaders(ServiceConfigurationContext context)
+    {
+        context.Services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | 
+                                      ForwardedHeaders.XForwardedProto | 
+                                      ForwardedHeaders.XForwardedHost;
+            // Clear the networks and proxies lists to accept headers from any source
+            // This is needed when behind load balancers like Choreo
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+        });
+    }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
     {
@@ -319,6 +334,9 @@ public class ChoreoSampleHostModule : AbpModule
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+
+        // Configure forwarded headers for reverse proxy/load balancer support
+        app.UseForwardedHeaders();
 
         if (env.IsDevelopment())
         {
