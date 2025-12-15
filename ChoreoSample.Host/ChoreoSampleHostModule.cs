@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using System;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -150,6 +151,15 @@ public class ChoreoSampleHostModule : AbpModule
             {
                 serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", configuration["AuthServer:CertificatePassPhrase"]!);
                 
+                // Set explicit issuer to use HTTPS public URL instead of internal HTTP URL
+                // This ensures ALL OpenID Connect URLs (authorization, token, userinfo, etc.) use the public HTTPS URL
+                var authority = configuration["AuthServer:Authority"];
+                if (!string.IsNullOrEmpty(authority))
+                {
+                    var issuerUri = new Uri(authority);
+                    serverBuilder.SetIssuer(issuerUri);
+                }
+                
                 // Disable transport security requirement when behind a reverse proxy (like Choreo)
                 // The proxy handles HTTPS, so the app receives HTTP requests with X-Forwarded-Proto headers
                 serverBuilder.UseAspNetCore()
@@ -196,8 +206,11 @@ public class ChoreoSampleHostModule : AbpModule
                                       ForwardedHeaders.XForwardedHost;
             // Clear the networks and proxies lists to accept headers from any source
             // This is needed when behind load balancers like Choreo
-            options.KnownNetworks.Clear();
+            options.KnownIPNetworks.Clear();
             options.KnownProxies.Clear();
+            
+            // Set the forwarded host header name to ensure proper URL generation
+            options.ForwardedHostHeaderName = "X-Forwarded-Host";
         });
     }
 
