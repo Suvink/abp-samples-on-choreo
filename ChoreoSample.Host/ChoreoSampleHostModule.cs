@@ -149,6 +149,11 @@ public class ChoreoSampleHostModule : AbpModule
             PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
             {
                 serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", configuration["AuthServer:CertificatePassPhrase"]!);
+                
+                // Disable transport security requirement when behind a reverse proxy (like Choreo)
+                // The proxy handles HTTPS, so the app receives HTTP requests with X-Forwarded-Proto headers
+                serverBuilder.UseAspNetCore()
+                    .DisableTransportSecurityRequirement();
             });
         }
     }
