@@ -1,0 +1,50 @@
+{
+  "id": "2cbe5763-1303-4a98-8a7b-79fdba37424d",
+  "template": "app-nolayers",
+  "versions": {
+    "AbpFramework": "10.0.1",
+    "AbpStudio": "2.1.2",
+    "TargetDotnetFramework": "net10.0"
+  },
+  "modules": {
+    "ChoreoSample": {
+      "path": "ChoreoSample.abpmdl"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+      
+      ]
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app-nolayers",
+    "createdAbpStudioVersion": "2.1.2",
+    "creationTool": "ABP Studio UI",
+    "multiTenancy": "true",
+    "runInstallLibs": "false",
+    "runBundling": "false",
+    "useLocalReferences": "false",
+    "uiFramework": "blazor",
+    "databaseProvider": "mongodb",
+    "runDbMigrator": "",
+    "includeTests": "false",
+    "theme": "leptonx-lite",
+    "themeStyle": "",
+    "themeMenuPlacement": "",
+    "progressiveWebApp": "",
+    "runProgressiveWebAppSupport": "",
+    "publicWebsite": "",
+    "socialLogin": "false",
+    "sampleCrudPage": "true",
+    "selectedLanguages": ["English", ],
+    "defaultLanguage": "English",
+    "createCommand": "abp new ChoreoSample -t app-nolayers --ui-framework blazor --mobile  --database-provider mongodb --theme leptonx-lite --skip-migration  --skip-migrator  --no-tests --without-cms-kit --sample-crud-page --dont-run-install-libs --dont-run-bundling --no-social-logins -no-gdpr -no-openiddict-admin-ui -no-audit-logging -no-file-management -no-language-management -no-text-template-management"
+  }
+}

@@ -1,0 +1,9 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+
+    <Project Path="ChoreoSample.Contracts/ChoreoSample.Contracts.csproj" />
+    <Project Path="ChoreoSample.Blazor/ChoreoSample.Blazor.csproj" />
+    <Project Path="ChoreoSample.Host/ChoreoSample.Host.csproj" />
+</Solution>

@@ -1,0 +1,56 @@
+{
+  "template": "app-nolayers",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "12/15/2025 16:20:51 +00:00"
+    }
+  },
+  "packages": {
+    "ChoreoSample.Blazor": {
+      "path": "ChoreoSample.Blazor/ChoreoSample.Blazor.abppkg"
+    },
+    "ChoreoSample.Host": {
+      "path": "ChoreoSample.Host/ChoreoSample.Host.abppkg"
+    },
+    "ChoreoSample.Contracts": {
+      "path": "ChoreoSample.Contracts/ChoreoSample.Contracts.abppkg"
+    }
+  }
+}
