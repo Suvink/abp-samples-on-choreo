@@ -352,9 +352,24 @@ public class ChoreoSampleHostModule : AbpModule
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
+        var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
 
         // Configure forwarded headers for reverse proxy/load balancer support
         app.UseForwardedHeaders();
+        
+        // Add middleware to override request scheme and host based on configuration
+        // This ensures OpenIddict generates URLs with the public-facing HTTPS URL
+        app.Use(async (httpContext, next) =>
+        {
+            var authorityUrl = configuration["AuthServer:Authority"];
+            if (!string.IsNullOrEmpty(authorityUrl))
+            {
+                var uri = new Uri(authorityUrl);
+                httpContext.Request.Scheme = uri.Scheme;
+                httpContext.Request.Host = new HostString(uri.Host, uri.Port);
+            }
+            await next();
+        });
 
         if (env.IsDevelopment())
         {
