@@ -45,10 +45,14 @@ RUN groupadd -g 10014 choreo && \
 # Copy published files including the certificate
 COPY --from=build /app/publish .
 
+# Copy the entrypoint script
+COPY ChoreoSample.Host/entrypoint.sh /app/entrypoint.sh
+
 # Set correct ownership and permissions for all files including the certificate
 RUN chown -R 10014:10014 /app && \
     chmod -R 755 /app && \
-    chmod 644 /app/openiddict.pfx
+    chmod 644 /app/openiddict.pfx && \
+    chmod +x /app/entrypoint.sh
 
 # Expose ports (8080 for HTTP, Choreo typically uses 8080)
 EXPOSE 8080
@@ -64,4 +68,4 @@ ENV ASPNETCORE_URLS=http://+:8080
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
 
-ENTRYPOINT ["dotnet", "ChoreoSample.Host.dll"]
+ENTRYPOINT ["/app/entrypoint.sh"]
