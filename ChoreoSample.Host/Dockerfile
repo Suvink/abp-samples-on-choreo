@@ -38,6 +38,11 @@ RUN dotnet dev-certs https -ep /app/publish/openiddict.pfx -p b97118c7-a13b-45d6
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 
+# Install brotli for recompressing appsettings files
+RUN apt-get update && \
+    apt-get install -y brotli && \
+    rm -rf /var/lib/apt/lists/*
+
 # Create a non-root user for security
 RUN groupadd -g 10014 choreo && \
     useradd --no-create-home --uid 10014 --gid 10014 choreouser

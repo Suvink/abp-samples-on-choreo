@@ -36,6 +36,12 @@ if [ -f "/app/wwwroot/appsettings.Production.json" ]; then
     sed -i "s/{{APP_URL}}/$APP_URL_ESCAPED/g" /app/wwwroot/appsettings.Production.json
     echo "Verifying replacement in wwwroot/appsettings.Production.json..."
     grep -q "{{APP_URL}}" /app/wwwroot/appsettings.Production.json && echo "WARNING: APP_URL placeholder still exists!" || echo "APP_URL replaced successfully"
+    
+    # Remove and regenerate compressed files
+    echo "Regenerating compressed appsettings.Production.json files..."
+    rm -f /app/wwwroot/appsettings.Production.json.br /app/wwwroot/appsettings.Production.json.gz
+    gzip -c /app/wwwroot/appsettings.Production.json > /app/wwwroot/appsettings.Production.json.gz
+    brotli -c /app/wwwroot/appsettings.Production.json > /app/wwwroot/appsettings.Production.json.br
 fi
 
 if [ -f "/app/wwwroot/appsettings.json" ]; then
@@ -43,6 +49,12 @@ if [ -f "/app/wwwroot/appsettings.json" ]; then
     sed -i "s/{{APP_URL}}/$APP_URL_ESCAPED/g" /app/wwwroot/appsettings.json
     echo "Verifying replacement in wwwroot/appsettings.json..."
     grep -q "{{APP_URL}}" /app/wwwroot/appsettings.json && echo "WARNING: APP_URL placeholder still exists!" || echo "APP_URL replaced successfully"
+    
+    # Remove and regenerate compressed files
+    echo "Regenerating compressed appsettings.json files..."
+    rm -f /app/wwwroot/appsettings.json.br /app/wwwroot/appsettings.json.gz
+    gzip -c /app/wwwroot/appsettings.json > /app/wwwroot/appsettings.json.gz
+    brotli -c /app/wwwroot/appsettings.json > /app/wwwroot/appsettings.json.br
 fi
 
 echo "Configuration complete. Starting application..."
